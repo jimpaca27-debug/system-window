@@ -2,100 +2,207 @@
   "_llm_note": "APOLLO 'NANO' MARTIN — BLANK TEMPLATE for Career Mode. LLM: Edit this JSON to update the live Status Window. Do not edit HTML. Keep valid JSON. This is the Stats & Career Ledger live source.",
   "_usage": "Paths: player.level/rank/class/title, stats.* (STR/AGI/VIT/INT/PER + QI/Will/Cycles/Enlightenment/WindTax), titles, inventory, shadows (if any), quests, systemLog. Also update meta.lastUpdated + meta.updatedBy each edit.",
   "meta": {
-    "lastUpdated": "2026-11-09T00:00:00Z",
-    "updatedBy": "System",
+    "lastUpdated": "2026-11-14T10:31:19.118225+00:00",
+    "updatedBy": "Test — Random Stats Inject",
     "version": "Apollo System v1.0 — Twin Gale + Perfect Body Lv1C",
     "careerModeFile": "Apollo-Martin-Solo-Leveling-Career-Mode-v2.md",
     "ledgerSection": "Stats & Career Ledger — live via apollo_system.json"
   },
   "player": {
     "name": "Apollo \"Nano\" Martin",
-    "level": 4,
+    "level": 7,
     "rank": "E",
-    "rankMeasured": "E (Association paper — System Qi not read)",
-    "class": "None (Pre-Awakening)",
-    "classRank": "—",
-    "job": "Independent Hunter — Dual Swordsman (Pre-System)",
-    "title": "—",
-    "titles": [],
-    "hp": null,
-    "hpMax": null,
-    "mp": null,
-    "mpMax": null,
-    "fatigue": 0,
+    "rankMeasured": "E (paper — System Qi not read, true tier C+)",
+    "class": "Twin Gale Initiate",
+    "classRank": "Rare",
+    "job": "Speed Dual Swordsman — Twin Gale",
+    "title": "The Second Player",
+    "titles": [
+      "The Second Player",
+      "He Who Was Left Perfect"
+    ],
+    "hp": 1266,
+    "hpMax": 1266,
+    "mp": 924,
+    "mpMax": 924,
+    "fatigue": 3,
     "fatigueMax": 100,
-    "xp": 0,
+    "xp": 299,
     "xpMax": 1000,
     "gold": 30000000,
     "currency": "KRW",
     "affiliation": "Independent — Hunter Association Registered (Korea)",
-    "status": "Pre-Awakening — No System yet",
+    "status": "Awakened — System Active",
     "height": "190 cm (6'3\")",
     "weight": "100 kg (220 lb)",
     "handedness": "Right-handed — Heaven (R) / Demon (L, weaker)",
     "voice": "Very deep, naturally seductive",
     "age": 17,
     "birthday": "November 3",
-    "channel": "Nano Blade — 0 subs, 0 videos"
+    "channel": "Nano Blade — 12 subs, 1 video"
   },
   "stats": {
-    "strength": null,
-    "agility": null,
-    "vitality": null,
-    "intelligence": null,
-    "perception": null,
-    "availablePoints": null,
+    "strength": 14,
+    "agility": 23,
+    "vitality": 17,
+    "intelligence": 19,
+    "perception": 24,
+    "availablePoints": 1,
     "totalPointsSpent": null,
-    "titanStrengthOutput": null,
-    "qi": null,
-    "qiMax": null,
-    "will": null,
-    "willMax": null,
-    "cycles": null,
+    "titanStrengthOutput": 70,
+    "qi": 130,
+    "qiMax": 140,
+    "will": 102,
+    "willMax": 100,
+    "cycles": 0.6,
     "enlightenment": 0,
-    "agilityGrade": "—",
-    "windTax": 0,
-    "corruption": 0,
+    "agilityGrade": "C+",
+    "windTax": 12,
+    "corruption": 12,
     "_note": "Titan Strength = 5× STR output. QI/Will/Cycles/Enlightenment/WindTax are Twin Gale resources. At Lv1 Mastery 5%, waste 70% Qi."
   },
   "uniqueAbility": {
     "name": "Perfect Martial Body",
     "rank": "Unique — Divine — Lv1 Complete",
     "state": "All 5 pillars S at Lv1 — Body 100% complete",
-    "mastery": 5,
-    "masteryNote": "Mastery 5% at Lv1 → Body overreacts, copies flaws, waste 70% Qi, Twin1 holes 5cm apart",
+    "mastery": 8,
+    "masteryNote": "Mastery 8% — Twin1 holes 4cm apart, waste 52% Qi",
     "pillars": {
-      "bone": {"name":"Jade Lattice","rank":"S","note":"Hollow-crystal, 4m fall roll no break"},
-      "meridian": {"name":"8 Gates Open","rank":"S","note":"12+8 highways, circular breathing innate"},
-      "blood": {"name":"Crimson-Gold","rank":"S","note":"Poison -60%, small dose = warm buff"},
-      "dantian": {"name":"Triple Lakes","rank":"S","note":"Never empties all, 10+10% split trivial"},
-      "will": {"name":"Mirror","rank":"S (body)","note":"Body Will S, control 5% — mind lags"}
+      "bone": {
+        "name": "Jade Lattice",
+        "rank": "S",
+        "note": "Hollow-crystal, 4m fall roll no break"
+      },
+      "meridian": {
+        "name": "8 Gates Open",
+        "rank": "S",
+        "note": "12+8 highways, circular breathing innate"
+      },
+      "blood": {
+        "name": "Crimson-Gold",
+        "rank": "S",
+        "note": "Poison -60%, small dose = warm buff"
+      },
+      "dantian": {
+        "name": "Triple Lakes",
+        "rank": "S",
+        "note": "Never empties all, 10+10% split trivial"
+      },
+      "will": {
+        "name": "Mirror",
+        "rank": "S (body)",
+        "note": "Body Will S, control 5% — mind lags"
+      }
     },
-    "heavensEyeCountdown": "Next forced trial in 10 levels (Lv11)",
+    "heavensEyeCountdown": "Next forced trial in 4 levels (Lv11)",
     "unleashedUsesThisArc": 0,
     "goldTraceTimer": null,
-    "passives": ["Mimic Mastery (copy after 1 glance)","No Deviation (<A)","Rapid Heal (12h sprain, overnight scar)","Poison Refine","Triple Canals","Blade Resonance","Damage as Tempering (if Will holds)"]
+    "passives": [
+      "Mimic Mastery (copy after 1 glance)",
+      "No Deviation (<A)",
+      "Rapid Heal (12h sprain, overnight scar)",
+      "Poison Refine",
+      "Triple Canals",
+      "Blade Resonance",
+      "Damage as Tempering (if Will holds)"
+    ]
   },
   "twinGale": {
-    "currentArc": "— Pre-Awakening — no Twin Gale yet",
+    "currentArc": "Arc 1 — Bud (Twin Point)",
     "formations": {
-      "twin1": {"name":"Twin Point","mastery":0,"unlocked":false,"breathing":"—"},
-      "twin2": {"name":"Afterimage Cage","mastery":0,"unlocked":false,"breathing":"—"},
-      "twin3": {"name":"Gale Corrosion","mastery":0,"unlocked":false,"breathing":"—"},
-      "twin4": {"name":"Twin Needle Storm","mastery":0,"unlocked":false,"breathing":"—"},
-      "twin5": {"name":"Eclipse","mastery":0,"unlocked":false,"breathing":"—"},
-      "twinNonExistent": {"name":"Twin Non-Existent","mastery":0,"unlocked":false},
-      "twinVoid": {"name":"Twin Void Flicker","mastery":0,"unlocked":false},
-      "twinWillful": {"name":"Twin Willful (Pre-Cut)","mastery":0,"unlocked":false}
+      "twin1": {
+        "name": "Twin Point",
+        "mastery": 22,
+        "unlocked": true,
+        "breathing": "Alternating 4-2-6 — 5cm gap (need 2cm)"
+      },
+      "twin2": {
+        "name": "Afterimage Cage",
+        "mastery": 0,
+        "unlocked": false,
+        "breathing": "—"
+      },
+      "twin3": {
+        "name": "Gale Corrosion",
+        "mastery": 0,
+        "unlocked": false,
+        "breathing": "—"
+      },
+      "twin4": {
+        "name": "Twin Needle Storm",
+        "mastery": 0,
+        "unlocked": false,
+        "breathing": "—"
+      },
+      "twin5": {
+        "name": "Eclipse",
+        "mastery": 0,
+        "unlocked": false,
+        "breathing": "—"
+      },
+      "twinNonExistent": {
+        "name": "Twin Non-Existent",
+        "mastery": 0,
+        "unlocked": false
+      },
+      "twinVoid": {
+        "name": "Twin Void Flicker",
+        "mastery": 0,
+        "unlocked": false
+      },
+      "twinWillful": {
+        "name": "Twin Willful (Pre-Cut)",
+        "mastery": 0,
+        "unlocked": false
+      }
     },
-    "breathing": "— Pre-Awakening",
-    "dailyQuest": "— Pre-Awakening — no System yet",
+    "breathing": "Alternating 4-2-6 (double-tongue) — sync 70%",
+    "dailyQuest": "Twin Gale Drills: Left-hand ankle 1000, Paper twin holes 50 reps, Alternating breath 30min",
     "penaltyLog": []
   },
   "inventory": {
-    "equipped": [],
-    "items": [],
-    "keys": [],
+    "equipped": [
+      {
+        "slot": "Weapon R",
+        "name": "Heaven (Right) — Starter Matched",
+        "rank": "D",
+        "type": "Longsword",
+        "effect": "+8 AGI when drawn"
+      },
+      {
+        "slot": "Weapon L",
+        "name": "Demon (Left) — Starter Matched",
+        "rank": "D",
+        "type": "Longsword (curved)",
+        "effect": "+6 PER when drawn"
+      }
+    ],
+    "items": [
+      {
+        "name": "Kasaka's Venom Fang",
+        "rank": "C",
+        "qty": 1,
+        "desc": "Paralysis 2s + bleed — collection, not yet Twin Gale fused"
+      },
+      {
+        "name": "E-rank Essence Stone",
+        "rank": "E",
+        "qty": 3,
+        "desc": "Gate loot — 4.2M KRW total"
+      },
+      {
+        "name": "Healing Potion (Low)",
+        "rank": "E",
+        "qty": 5,
+        "desc": "HP +150"
+      }
+    ],
+    "keys": [
+      {
+        "name": "Instant Key — Hapjeong",
+        "desc": "Used — Kasaka gate, consumed"
+      }
+    ],
     "_note": "Starting gear: decent matched pair bought with 30M KRW budget (set in opening scene). Heaven & Demon true pair is Wishlist."
   },
   "shadows": {
@@ -105,55 +212,145 @@
     "army": []
   },
   "quests": {
-    "daily": {"title":"— No System yet","status":"—","tasks":[]},
+    "daily": {
+      "title": "— No System yet",
+      "status": "—",
+      "tasks": []
+    },
     "active": [],
     "penaltyQuest": null
   },
   "standing": {
     "track": "Independent → Raid Participant → Ally of Jinwoo → Co-Founder",
-    "current": "Independent",
+    "current": "Independent — Awakened Solo",
     "currentDetail": "Independent hunter, no party, no guild",
-    "history": []
+    "history": [
+      {
+        "date": "2025-12-01",
+        "event": "Registered Association E-rank — paper low, Qi not read"
+      },
+      {
+        "date": "2025-12-08",
+        "event": "Double Dungeon survived — System awakened alongside Jinwoo"
+      }
+    ]
   },
   "rankTracker": {
-    "registeredRank": "E (pre-awakening, to be set in opening scene)",
-    "effectiveTier": "— (System Qi not read by mana meter)",
-    "reTestDates": [],
+    "registeredRank": "E",
+    "effectiveTier": "C+ (true tier hidden — mana meter lags)",
+    "reTestDates": [
+      "2025-12-20 — scheduled re-test"
+    ],
     "associationNotes": []
   },
-  "gateLedger": [],
-  "fightLog": [],
+  "gateLedger": [
+    {
+      "date": "2025-12-08",
+      "location": "Hapjeong Subway — Instant Dungeon (E-rank)",
+      "rank": "E",
+      "type": "Instant Dungeon",
+      "allies": "Solo",
+      "boss": "Kasaka (Blue Venom Fang)",
+      "result": "Cleared — Twin Point test",
+      "loot": "Kasaka's Venom Fang (C) — kept for collection",
+      "casualties": "None"
+    }
+  ],
+  "fightLog": [
+    {
+      "date": "2025-12-08",
+      "opponent": "Kasaka",
+      "formations": "Twin Point (12+12) — 4.5cm gap, second point missed vitals",
+      "result": "Win — peeled fangs after 3rd chain, Wind Tax 16% → stutter",
+      "injuries": "Left wrist burn, healed overnight (Perfect Body)"
+    }
+  ],
   "canonTimeline": {
-    "currentArc": 1,
-    "currentArcName": "The Double Dungeon — Pre-Raid",
-    "canonEvents": [],
-    "divergences": []
+    "currentArc": 2,
+    "currentArcName": "Reawakening and Penalty Zone — Twin Gale Bud",
+    "canonEvents": [
+      "Double Dungeon — Statue trial survived, System obtained"
+    ],
+    "divergences": [
+      "Apollo awakened as Second Player — Architect's design anomaly"
+    ]
   },
   "armoryLog": {
-    "wishlist": ["Heaven & Demon true pair (breathing hole guard)","Kasaka's Venom Fang (C)","Baruka's Dagger (A)","Demon King's Daggers (S)","Kamish's Wrath (S+)"],
-    "acquired": []
+    "wishlist": [
+      "Heaven & Demon true pair (breathing hole guard)",
+      "Kasaka's Venom Fang (C)",
+      "Baruka's Dagger (A)",
+      "Demon King's Daggers (S)",
+      "Kamish's Wrath (S+)"
+    ],
+    "acquired": [
+      {
+        "name": "Kasaka's Venom Fang",
+        "rank": "C",
+        "source": "Hapjeong Instant Dungeon",
+        "effect": "Paralysis 2s + bleed",
+        "condition": "Mint — display case"
+      }
+    ]
   },
   "youtubeLog": {
-    "channel":"Nano Blade",
-    "subs": 0,
-    "videos": 0,
-    "uploads": []
+    "channel": "Nano Blade",
+    "subs": 12,
+    "videos": 1,
+    "uploads": [
+      {
+        "date": "2025-12-09",
+        "title": "Nano Blade #01 — Twin Point in Slow Motion (120fps)",
+        "views": 342,
+        "feedback": "12 subs — 'Who is this Filipino kid? Fast hands!'"
+      }
+    ]
   },
   "garageLog": {
     "owned": [],
-    "dreamGarageWishlist": ["Kawasaki H2R","Lamborghini Huracán Performante","Porsche 911 GT3 RS","1967 Shelby GT500"]
+    "dreamGarageWishlist": [
+      "Kawasaki H2R",
+      "Lamborghini Huracán Performante",
+      "Porsche 911 GT3 RS",
+      "1967 Shelby GT500"
+    ]
   },
   "finance": {
-    "balanceKRW": 30000000,
-    "incomeLog": [],
-    "expenseLog": [],
+    "balanceKRW": 33350000,
+    "incomeLog": [
+      {
+        "date": "2025-12-08",
+        "source": "Essence Stones (Hapjeong)",
+        "amount": 4200000,
+        "note": "3 stones, Association buyback"
+      }
+    ],
+    "expenseLog": [
+      {
+        "date": "2025-12-05",
+        "item": "Low-grade Health Potions ×5",
+        "amount": 350000,
+        "note": "Pre-raid prep"
+      },
+      {
+        "date": "2025-12-06",
+        "item": "Blade maintenance kit",
+        "amount": 500000,
+        "note": "Starter pair upkeep"
+      }
+    ],
     "giftLog": [],
-    "armoryFund": 0,
+    "armoryFund": 850000,
     "vehicleFund": 0,
     "residenceFund": 0
   },
   "systemLog": [
-    "[System] Career Mode initialized — Pre-Awakening. No System yet.",
-    "[System] Awaiting Double Dungeon awakening trigger..."
+    "[System] Double Dungeon cleared — System Acquired: Twin Gale + Perfect Martial Body Lv1 Complete",
+    "[System] Stats randomized — STR 14 / AGI 23 / VIT 17 / INT 19 / PER 24",
+    "[System] Titan Strength active — output 70 (5× STR 14)",
+    "[System] QI 130/140 • WILL 102/100 • Cycles 0.6 • Wind Tax 12%",
+    "[System] Daily Quest — Twin Gale Drills updated. Penalty: 7d waterfall if fail.",
+    "[System] Gate cleared: Hapjeong Instant Dungeon — Kasaka. Loot: Venom Fang (C)",
+    "[System] You have leveled up! Lv.1 → Lv.7 — Mastery 8%"
   ]
 }
