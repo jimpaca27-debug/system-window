@@ -2,8 +2,8 @@
   "_llm_note": "APOLLO 'NANO' MARTIN — BLANK TEMPLATE for Career Mode. LLM: Edit this JSON to update the live Status Window. Do not edit HTML. Keep valid JSON. This is the Stats & Career Ledger live source.",
   "_usage": "Paths: player.level/rank/class/title, stats.* (STR/AGI/VIT/INT/PER + QI/Will/Cycles/Enlightenment/WindTax), titles, inventory, shadows (if any), quests, systemLog. Also update meta.lastUpdated + meta.updatedBy each edit.",
   "meta": {
-    "lastUpdated": "2026-11-14T10:31:19.118225+00:00",
-    "updatedBy": "Test — Random Stats Inject",
+    "lastUpdated": "2026-11-14T16:54:00+00:00",
+    "updatedBy": "Perplexity — Pipeline Test",
     "version": "Apollo System v1.0 — Twin Gale + Perfect Body Lv1C",
     "careerModeFile": "Apollo-Martin-Solo-Leveling-Career-Mode-v2.md",
     "ledgerSection": "Stats & Career Ledger — live via apollo_system.json"
@@ -351,6 +351,7 @@
     "[System] QI 130/140 • WILL 102/100 • Cycles 0.6 • Wind Tax 12%",
     "[System] Daily Quest — Twin Gale Drills updated. Penalty: 7d waterfall if fail.",
     "[System] Gate cleared: Hapjeong Instant Dungeon — Kasaka. Loot: Venom Fang (C)",
-    "[System] You have leveled up! Lv.1 → Lv.7 — Mastery 8%"
+    "[System] You have leveled up! Lv.1 → Lv.7 — Mastery 8%",
+    "[System] Pipeline test — JSON edit received from GitHub connector"
   ]
 }
