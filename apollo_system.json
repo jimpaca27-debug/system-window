@@ -1,0 +1,159 @@
+{
+  "_llm_note": "APOLLO 'NANO' MARTIN — BLANK TEMPLATE for Career Mode. LLM: Edit this JSON to update the live Status Window. Do not edit HTML. Keep valid JSON. This is the Stats & Career Ledger live source.",
+  "_usage": "Paths: player.level/rank/class/title, stats.* (STR/AGI/VIT/INT/PER + QI/Will/Cycles/Enlightenment/WindTax), titles, inventory, shadows (if any), quests, systemLog. Also update meta.lastUpdated + meta.updatedBy each edit.",
+  "meta": {
+    "lastUpdated": "2026-11-09T00:00:00Z",
+    "updatedBy": "System",
+    "version": "Apollo System v1.0 — Twin Gale + Perfect Body Lv1C",
+    "careerModeFile": "Apollo-Martin-Solo-Leveling-Career-Mode-v2.md",
+    "ledgerSection": "Stats & Career Ledger — live via apollo_system.json"
+  },
+  "player": {
+    "name": "Apollo \"Nano\" Martin",
+    "level": 4,
+    "rank": "E",
+    "rankMeasured": "E (Association paper — System Qi not read)",
+    "class": "None (Pre-Awakening)",
+    "classRank": "—",
+    "job": "Independent Hunter — Dual Swordsman (Pre-System)",
+    "title": "—",
+    "titles": [],
+    "hp": null,
+    "hpMax": null,
+    "mp": null,
+    "mpMax": null,
+    "fatigue": 0,
+    "fatigueMax": 100,
+    "xp": 0,
+    "xpMax": 1000,
+    "gold": 30000000,
+    "currency": "KRW",
+    "affiliation": "Independent — Hunter Association Registered (Korea)",
+    "status": "Pre-Awakening — No System yet",
+    "height": "190 cm (6'3\")",
+    "weight": "100 kg (220 lb)",
+    "handedness": "Right-handed — Heaven (R) / Demon (L, weaker)",
+    "voice": "Very deep, naturally seductive",
+    "age": 17,
+    "birthday": "November 3",
+    "channel": "Nano Blade — 0 subs, 0 videos"
+  },
+  "stats": {
+    "strength": null,
+    "agility": null,
+    "vitality": null,
+    "intelligence": null,
+    "perception": null,
+    "availablePoints": null,
+    "totalPointsSpent": null,
+    "titanStrengthOutput": null,
+    "qi": null,
+    "qiMax": null,
+    "will": null,
+    "willMax": null,
+    "cycles": null,
+    "enlightenment": 0,
+    "agilityGrade": "—",
+    "windTax": 0,
+    "corruption": 0,
+    "_note": "Titan Strength = 5× STR output. QI/Will/Cycles/Enlightenment/WindTax are Twin Gale resources. At Lv1 Mastery 5%, waste 70% Qi."
+  },
+  "uniqueAbility": {
+    "name": "Perfect Martial Body",
+    "rank": "Unique — Divine — Lv1 Complete",
+    "state": "All 5 pillars S at Lv1 — Body 100% complete",
+    "mastery": 5,
+    "masteryNote": "Mastery 5% at Lv1 → Body overreacts, copies flaws, waste 70% Qi, Twin1 holes 5cm apart",
+    "pillars": {
+      "bone": {"name":"Jade Lattice","rank":"S","note":"Hollow-crystal, 4m fall roll no break"},
+      "meridian": {"name":"8 Gates Open","rank":"S","note":"12+8 highways, circular breathing innate"},
+      "blood": {"name":"Crimson-Gold","rank":"S","note":"Poison -60%, small dose = warm buff"},
+      "dantian": {"name":"Triple Lakes","rank":"S","note":"Never empties all, 10+10% split trivial"},
+      "will": {"name":"Mirror","rank":"S (body)","note":"Body Will S, control 5% — mind lags"}
+    },
+    "heavensEyeCountdown": "Next forced trial in 10 levels (Lv11)",
+    "unleashedUsesThisArc": 0,
+    "goldTraceTimer": null,
+    "passives": ["Mimic Mastery (copy after 1 glance)","No Deviation (<A)","Rapid Heal (12h sprain, overnight scar)","Poison Refine","Triple Canals","Blade Resonance","Damage as Tempering (if Will holds)"]
+  },
+  "twinGale": {
+    "currentArc": "— Pre-Awakening — no Twin Gale yet",
+    "formations": {
+      "twin1": {"name":"Twin Point","mastery":0,"unlocked":false,"breathing":"—"},
+      "twin2": {"name":"Afterimage Cage","mastery":0,"unlocked":false,"breathing":"—"},
+      "twin3": {"name":"Gale Corrosion","mastery":0,"unlocked":false,"breathing":"—"},
+      "twin4": {"name":"Twin Needle Storm","mastery":0,"unlocked":false,"breathing":"—"},
+      "twin5": {"name":"Eclipse","mastery":0,"unlocked":false,"breathing":"—"},
+      "twinNonExistent": {"name":"Twin Non-Existent","mastery":0,"unlocked":false},
+      "twinVoid": {"name":"Twin Void Flicker","mastery":0,"unlocked":false},
+      "twinWillful": {"name":"Twin Willful (Pre-Cut)","mastery":0,"unlocked":false}
+    },
+    "breathing": "— Pre-Awakening",
+    "dailyQuest": "— Pre-Awakening — no System yet",
+    "penaltyLog": []
+  },
+  "inventory": {
+    "equipped": [],
+    "items": [],
+    "keys": [],
+    "_note": "Starting gear: decent matched pair bought with 30M KRW budget (set in opening scene). Heaven & Demon true pair is Wishlist."
+  },
+  "shadows": {
+    "totalShadows": 0,
+    "capacity": "— No Shadow Monarch skill (Apollo is not Jinwoo)",
+    "_note": "Apollo does not have Shadow Extraction unless story grants it — keep empty unless earned",
+    "army": []
+  },
+  "quests": {
+    "daily": {"title":"— No System yet","status":"—","tasks":[]},
+    "active": [],
+    "penaltyQuest": null
+  },
+  "standing": {
+    "track": "Independent → Raid Participant → Ally of Jinwoo → Co-Founder",
+    "current": "Independent",
+    "currentDetail": "Independent hunter, no party, no guild",
+    "history": []
+  },
+  "rankTracker": {
+    "registeredRank": "E (pre-awakening, to be set in opening scene)",
+    "effectiveTier": "— (System Qi not read by mana meter)",
+    "reTestDates": [],
+    "associationNotes": []
+  },
+  "gateLedger": [],
+  "fightLog": [],
+  "canonTimeline": {
+    "currentArc": 1,
+    "currentArcName": "The Double Dungeon — Pre-Raid",
+    "canonEvents": [],
+    "divergences": []
+  },
+  "armoryLog": {
+    "wishlist": ["Heaven & Demon true pair (breathing hole guard)","Kasaka's Venom Fang (C)","Baruka's Dagger (A)","Demon King's Daggers (S)","Kamish's Wrath (S+)"],
+    "acquired": []
+  },
+  "youtubeLog": {
+    "channel":"Nano Blade",
+    "subs": 0,
+    "videos": 0,
+    "uploads": []
+  },
+  "garageLog": {
+    "owned": [],
+    "dreamGarageWishlist": ["Kawasaki H2R","Lamborghini Huracán Performante","Porsche 911 GT3 RS","1967 Shelby GT500"]
+  },
+  "finance": {
+    "balanceKRW": 30000000,
+    "incomeLog": [],
+    "expenseLog": [],
+    "giftLog": [],
+    "armoryFund": 0,
+    "vehicleFund": 0,
+    "residenceFund": 0
+  },
+  "systemLog": [
+    "[System] Career Mode initialized — Pre-Awakening. No System yet.",
+    "[System] Awaiting Double Dungeon awakening trigger..."
+  ]
+}

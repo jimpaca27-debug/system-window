@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYSTEM — Apollo "Nano" Martin Status Window</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Orbitron:wght@700;900&display=swap');
+  :root{
+    --bg:#04060c; --panel:#0a101e; --card:#0e1a2f; --line:#1c3a66;
+    --cyan:#00d7ff; --blue:#2b7cff; --violet:#7c5cff; --gold:#fbbf24; --jade:#00ffa6; --red:#ff2b55; --orange:#ff7a18;
+    --text:#e6f2ff; --muted:#7a9bc7; --dim:#4a6a9a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'JetBrains Mono',monospace;background:radial-gradient(1200px 600px at 18% 0%, #0a1a3a 0%, transparent 60%), radial-gradient(1000px 600px at 88% 0%, #0a2350 0%, transparent 60%), var(--bg);color:var(--text);min-height:100vh;padding:12px;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(transparent, transparent 2px, rgba(0,215,255,.03) 2px, transparent 3px);z-index:1}
+  .wrap{max-width:1240px;margin:0 auto;position:relative;z-index:2}
+  .sysHeader{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+  .sysTitle{font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:.12em;font-size:20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .sysTitle b{color:var(--cyan);text-shadow:0 0 12px rgba(0,215,255,.6)}
+  .live{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--cyan);border:1px solid rgba(0,215,255,.35);background:rgba(0,215,255,.08);padding:6px 10px;border-radius:999px}
+  .dot{width:8px;height:8px;background:var(--jade);border-radius:50%;box-shadow:0 0 8px var(--jade);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .chip{font-size:11px;padding:6px 9px;border:1px solid var(--line);background:rgba(12,26,51,.9);border-radius:8px;color:var(--muted)}
+  .chip b{color:var(--text)} .chip.cyan{border-color:rgba(0,215,255,.35);color:var(--cyan)}
+  .layout{display:grid;grid-template-columns:360px 1fr;gap:12px;align-items:start}
+  @media(max-width:920px){.layout{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg, rgba(14,26,47,.97), rgba(8,16,30,.97));border:1px solid var(--line);border-radius:12px;overflow:hidden;position:relative;box-shadow:0 0 22px rgba(43,124,255,.12), inset 0 1px 0 rgba(255,255,255,.06)}
+  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.7}
+  .cardHead{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:rgba(0,215,255,.06);font-family:'Orbitron',sans-serif;letter-spacing:.08em;font-size:11px;color:var(--cyan)}
+  .cardBody{padding:12px}
+  .portrait{width:100%;height:168px;background:linear-gradient(180deg,#0a1a33,#060d1e);border:1px solid var(--line);border-radius:10px;position:relative;overflow:hidden;display:grid;place-items:center}
+  .portrait::after{content:"[ HUNTER FILE — APOLLO MARTIN — NANO BLADE ]";position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.1em;color:rgba(0,215,255,.6);border:1px solid rgba(0,215,255,.2);padding:2px 6px;border-radius:4px;background:rgba(0,0,0,.35);white-space:nowrap}
+  .silhouette{width:78px;height:78px;border:2px solid var(--cyan);border-radius:50%;display:grid;place-items:center;font-size:22px;background:rgba(0,215,255,.08);box-shadow:0 0 18px rgba(0,215,255,.35)}
+  .playerName{font-family:'Orbitron',sans-serif;font-weight:900;font-size:17px;letter-spacing:.06em;margin-top:10px}
+  .playerName span{color:var(--cyan);text-shadow:0 0 10px rgba(0,215,255,.5)}
+  .sub{font-size:11px;color:var(--muted);line-height:1.6}
+  .sub b{color:var(--text)}
+  .barRow{margin:8px 0}
+  .barLabel{font-size:10px;letter-spacing:.08em;color:var(--muted);display:flex;justify-content:space-between}
+  .barTrack{height:14px;background:#060d1e;border:1px solid var(--line);border-radius:999px;overflow:hidden;position:relative;margin-top:4px}
+  .barFill{height:100%;border-radius:999px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:9px;font-weight:800;color:#001018;transition:width .5s ease}
+  .barFill.hp{background:linear-gradient(90deg,#ff2b55,#ff6b8a)} .barFill.mp{background:linear-gradient(90deg,#2b7cff,#00d7ff)} .barFill.xp{background:linear-gradient(90deg,#fbbf24,#fde68a)} .barFill.fat{background:linear-gradient(90deg,#7c5cff,#a78bfa)} .barFill.qi{background:linear-gradient(90deg,#00ffa6,#00d7ff)} .barFill.will{background:linear-gradient(90deg,#ff7a18,#fbbf24)}
+  .statsGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .statBox{border:1px solid var(--line);background:rgba(0,0,0,.25);border-radius:8px;padding:8px;display:flex;justify-content:space-between;align-items:center}
+  .statBox span{font-size:10px;color:var(--muted);letter-spacing:.06em} .statBox b{font-size:14px;color:var(--cyan)} .statBox b.gold{color:var(--gold)} .statBox b.qi{color:var(--jade)} .statBox b.will{color:var(--orange)}
+  .kpi{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px} .kpi span{font-size:10px;padding:4px 7px;border:1px solid var(--line);background:#060d1e;border-radius:999px;color:var(--muted)} .kpi b{color:var(--text)}
+  .notice{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);color:#fde68a;padding:8px 10px;border-radius:8px;font-size:11px}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px} .btn{padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-weight:800;font-size:11px;cursor:pointer} .btn.primary{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#001018;border:none} .btn.gold{background:linear-gradient(90deg,#f59e0b,#fbbf24);color:#111;border:none}
+  .tabBar{display:flex;gap:6px;flex-wrap:wrap;padding:10px 12px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.18)}
+  .tab{padding:8px 11px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--muted);font-weight:800;font-size:11px;cursor:pointer;letter-spacing:.06em}
+  .tab.active{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#001018;border-color:transparent;box-shadow:0 6px 18px rgba(0,215,255,.25)}
+  .tabContent{display:none;padding:12px} .tabContent.active{display:block}
+  table{width:100%;border-collapse:collapse;font-size:12px} th{font-size:10px;letter-spacing:.08em;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.2)} td{padding:7px 8px;border-bottom:1px solid rgba(30,58,106,.6);color:#dbe9ff}
+  .pill{display:inline-block;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.06em;border:1px solid var(--line);background:#060d1e;color:var(--muted)} .pill.S{border-color:rgba(251,191,36,.4);color:var(--gold);background:rgba(251,191,36,.1)} .pill.A{border-color:rgba(0,215,255,.35);color:var(--cyan);background:rgba(0,215,255,.08)} .pill.Divine{background:linear-gradient(90deg,#fbbf24,#f59e0b);color:#111;border:none}
+  .log{max-height:240px;overflow:auto;background:#02060e;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:11px;line-height:1.7} .log div{padding:4px 6px;border-left:2px solid var(--cyan);margin:6px 0;background:rgba(0,215,255,.06)}
+  .corner{position:absolute;width:14px;height:14px;border:2px solid var(--cyan)} .corner.tl{top:6px;left:6px;border-right:none;border-bottom:none} .corner.tr{top:6px;right:6px;border-left:none;border-bottom:none} .corner.bl{bottom:6px;left:6px;border-right:none;border-top:none} .corner.br{bottom:6px;right:6px;border-left:none;border-top:none}
+  #radar{width:100%;height:170px}
+  details{margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden} details summary{padding:8px 10px;background:rgba(0,215,255,.06);cursor:pointer;font-size:11px;letter-spacing:.06em;color:var(--cyan);font-weight:800} details .inside{padding:10px;font-size:11px;color:var(--muted);line-height:1.7} code{background:#060d1e;border:1px solid var(--line);padding:2px 6px;border-radius:6px;color:var(--cyan);font-size:11px}
+  .blank{color:var(--dim);font-style:italic}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="sysHeader">
+    <div class="sysTitle"><b>◈ SYSTEM</b> <span id="sysVersion">v1.0</span> <span style="font-size:11px;opacity:.6">| Apollo "Nano" Martin — Hunter Career Mode</span></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="live"><span class="dot"></span> <span id="liveText">LIVE — Auto-refresh 3s</span></div>
+      <button class="chip cyan" onclick="fetchData(true)">↻ Refresh</button>
+      <span class="chip">Last: <b id="lastUpdated">—</b></span><span class="chip">By: <b id="updatedBy">—</b></span>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- LEFT -->
+    <div class="card" style="position:sticky;top:12px">
+      <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+      <div class="cardHead"><span>◈ APOLLO PROFILE</span><span id="rankBadge" class="pill S">E RANK</span></div>
+      <div class="cardBody">
+        <div class="portrait"><div class="silhouette">⚡</div></div>
+        <div class="playerName" id="pName">Apollo "Nano" Martin <span>Lv.1</span></div>
+        <div class="sub">
+          <div><b id="pClass">None (Pre-Awakening)</b> <span id="pClassRank" class="pill">—</span> — <span id="pJob">Independent — Dual Swordsman</span></div>
+          <div>Title: <b id="pTitle" style="color:var(--gold)">—</b> • <span id="pAffil">Independent — Registered</span></div>
+          <div>Status: <b id="pStatus">Pre-Awakening</b> • Fatigue <b id="pFatigue">0/100</b> • Channel <b id="pChannel">Nano Blade — 0 subs</b></div>
+          <div style="margin-top:6px;color:var(--dim);font-size:10px" id="pMeta">190cm / 100kg • Right-handed Heaven/Demon • 17yo • Nov 3</div>
+        </div>
+
+        <div class="barRow"><div class="barLabel"><span>HP</span><span id="hpTxt">—</span></div><div class="barTrack"><div id="hpBar" class="barFill hp" style="width:0%">—</div></div></div>
+        <div class="barRow"><div class="barLabel"><span>MP</span><span id="mpTxt">—</span></div><div class="barTrack"><div id="mpBar" class="barFill mp" style="width:0%">—</div></div></div>
+        <div class="barRow"><div class="barLabel"><span>QI (System Energy)</span><span id="qiTxt">—</span></div><div class="barTrack"><div id="qiBar" class="barFill qi" style="width:0%">—</div></div></div>
+        <div class="barRow"><div class="barLabel"><span>WILL</span><span id="willTxt">—</span></div><div class="barTrack"><div id="willBar" class="barFill will" style="width:0%">—</div></div></div>
+        <div class="barRow"><div class="barLabel"><span>XP</span><span id="xpTxt">0 / 1,000</span></div><div class="barTrack"><div id="xpBar" class="barFill xp" style="width:0%">0%</div></div></div>
+        <div class="barRow"><div class="barLabel"><span>FATIGUE</span><span id="fatTxt">0%</span></div><div class="barTrack"><div id="fatBar" class="barFill fat" style="width:0%">0%</div></div></div>
+
+        <div class="kpi" id="kpiRow"></div>
+
+        <div class="statsGrid">
+          <div class="statBox"><span>STR</span><b id="sStr" class="blank">—</b></div>
+          <div class="statBox"><span>AGI</span><b id="sAgi" class="blank">—</b></div>
+          <div class="statBox"><span>VIT</span><b id="sVit" class="blank">—</b></div>
+          <div class="statBox"><span>INT</span><b id="sInt" class="blank">—</b></div>
+          <div class="statBox"><span>PER</span><b id="sPer" class="blank">—</b></div>
+          <div class="statBox"><span>PTS</span><b id="sPts" class="gold">—</b></div>
+        </div>
+        <div class="statsGrid" style="margin-top:8px">
+          <div class="statBox"><span>QI</span><b id="sQi" class="qi">—</b></div>
+          <div class="statBox"><span>WILL</span><b id="sWill" class="will">—</b></div>
+          <div class="statBox"><span>CYCLES</span><b id="sCycles">—</b></div>
+          <div class="statBox"><span>ENL</span><b id="sEnl">0</b></div>
+        </div>
+        <div class="kpi" id="galeKpi"></div>
+        <canvas id="radar"></canvas>
+        <div class="controls"><button class="btn primary" onclick="fetchData(true)">↻ Reload</button><button class="btn" onclick="downloadJson()">⬇ Export JSON</button></div>
+        <div class="notice" style="margin-top:10px">This window reads <code>apollo_system.json</code> every 3s. LLM edits JSON → window updates. This <b>is</b> the Stats & Career Ledger.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="card">
+      <div class="tabBar">
+        <button class="tab active" data-tab="ledger">LEDGER</button>
+        <button class="tab" data-tab="twin">TWIN GALE</button>
+        <button class="tab" data-tab="body">PERFECT BODY</button>
+        <button class="tab" data-tab="inventory">INVENTORY</button>
+        <button class="tab" data-tab="gates">GATES & FIGHTS</button>
+        <button class="tab" data-tab="career">CAREER</button>
+        <button class="tab" data-tab="log">LOG</button>
+        <button class="tab" data-tab="llm">LLM GUIDE</button>
+      </div>
+
+      <!-- LEDGER -->
+      <div id="tab-ledger" class="tabContent active">
+        <div id="ledgerBox"></div>
+      </div>
+
+      <div id="tab-twin" class="tabContent"><div id="twinBox"></div></div>
+      <div id="tab-body" class="tabContent"><div id="bodyBox"></div></div>
+      <div id="tab-inventory" class="tabContent"><div id="invBox"></div></div>
+      <div id="tab-gates" class="tabContent"><div id="gatesBox"></div></div>
+      <div id="tab-career" class="tabContent"><div id="careerBox"></div></div>
+      <div id="tab-log" class="tabContent"><div id="logBox" class="log"></div><div class="controls"><button class="btn" onclick="clearLog()">Clear View</button></div></div>
+
+      <div id="tab-llm" class="tabContent">
+        <h3 style="color:var(--cyan);font-family:Orbitron,sans-serif">LLM Update Guide — Apollo's Ledger</h3>
+        <div class="notice">Viewer fetches <code>./apollo_system.json</code> + cache-buster every 3s. <b>To update Stats & Career Ledger, edit JSON only.</b></div>
+        <details open><summary>JSON Paths — Edit These</summary><div class="inside">
+          <code>player.level</code> → level (reset xp, add stats.availablePoints, log "Lv.X → Lv.Y")<br>
+          <code>player.rank</code> / <code>rankTracker.registeredRank</code> → rank re-test<br>
+          <code>player.class</code> / <code>classRank</code> / <code>job</code> / <code>title</code> / push <code>player.titles[]</code><br>
+          <code>stats.strength/agility/vitality/intelligence/perception</code> + <code>stats.availablePoints</code> (decrement when allocating)<br>
+          <code>stats.qi / qiMax / will / willMax / cycles / enlightenment / windTax / corruption / agilityGrade</code> → QI/WILL bars + Twin Gale<br>
+          <code>stats.titanStrengthOutput</code> → 5× STR<br>
+          <code>uniqueAbility.mastery</code> → 5%→100% (Perfect Body control) + <code>heavensEyeCountdown</code><br>
+          <code>twinGale.formations.twin1.mastery/unlocked/breathing</code> … twin5/twinNonExistent/twinVoid/twinWillful<br>
+          <code>twinGale.currentArc</code> / <code>dailyQuest</code> / <code>penaltyLog[]</code><br>
+          <code>inventory.equipped[] / items[] / keys[]</code> + <code>finance.balanceKRW</code> / expense/income logs<br>
+          <code>standing.current / history[]</code> / <code>gateLedger[]</code> / <code>fightLog[]</code> / <code>canonTimeline</code><br>
+          <code>armoryLog.acquired[] / wishlist[]</code> / <code>youtubeLog</code> / <code>garageLog.owned[]</code><br>
+          <code>systemLog[]</code> push every change: "[System] Leveled up! Lv.1 → Lv.2" etc.<br>
+          <b>Always:</b> update <code>meta.lastUpdated</code> (ISO) + <code>meta.updatedBy</code> on every edit.
+        </div></details>
+        <details><summary>Hosting — Make Public for Any LLM</summary><div class="inside">
+          Upload <b>both files together</b>: <code>Apollo_System_Window.html</code> + <code>apollo_system.json</code> to same GitHub repo folder.<br>
+          Settings → Pages → Deploy from branch → main/(root) → Save.<br>
+          Viewer: <code>https://YOURNAME.github.io/REPO/Apollo_System_Window.html</code><br>
+          JSON: <code>https://YOURNAME.github.io/REPO/apollo_system.json</code> (any LLM can fetch_page this)<br>
+          Career Mode file: <code>Apollo-Martin-Solo-Leveling-Career-Mode-v2.md</code> already links its Ledger to this window — embed via <code>&lt;iframe src="Apollo_System_Window.html" height="900"&gt;</code> if rendering MD as HTML.
+        </div></details>
+        <details><summary>Prompt Template</summary><div class="inside">
+          <code>Fetch as canon:<br>Career Mode: https://YOURNAME.github.io/REPO/Apollo-Martin-Solo-Leveling-Career-Mode-v2.md<br>Live Ledger JSON: https://YOURNAME.github.io/REPO/apollo_system.json<br>Twin Gale bible: https://jimpaca27-debug.github.io/martial-sources/Heavenly_Demon_Divine_Arts_TWIN_GALE_BIBLE.html<br>Perfect Body bible: https://jimpaca27-debug.github.io/martial-sources/Perfect_Martial_Body_UNIQUE_ABILITY.html<br><br>Live Ledger is the Stats & Career Ledger. When stats/level/class/title/inventory/gates/fights change, edit apollo_system.json paths above + meta.lastUpdated + systemLog. Cite path.</code>
+        </div></details>
+        <div class="controls"><button class="btn gold" onclick="downloadJson()">⬇ Download apollo_system.json</button> <button class="btn" onclick="fetchData(true)">↻ Force Refresh</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DEFAULT = {
+  meta:{lastUpdated:new Date().toISOString(), updatedBy:"System", version:"Apollo System v1.0"},
+  player:{name:'Apollo "Nano" Martin', level:1, rank:'E', class:'None (Pre-Awakening)', classRank:'—', job:'Independent — Dual Swordsman', title:'—', titles:[], hp:null, hpMax:null, mp:null, mpMax:null, fatigue:0, fatigueMax:100, xp:0, xpMax:1000, gold:30000000, affiliation:'Independent — Registered', status:'Pre-Awakening — No System yet', channel:'Nano Blade — 0 subs'},
+  stats:{strength:null, agility:null, vitality:null, intelligence:null, perception:null, availablePoints:null, qi:null, qiMax:null, will:null, willMax:null, cycles:null, enlightenment:0, windTax:0, corruption:0, agilityGrade:'—', titanStrengthOutput:null},
+  uniqueAbility:{name:'Perfect Martial Body', rank:'Unique — Divine — Lv1 Complete', mastery:5, masteryNote:'Mastery 5% at Lv1', heavensEyeCountdown:'Next in 10 levels (Lv11)', unleashedUsesThisArc:0, passives:[]},
+  twinGale:{currentArc:'— Pre-Awakening', formations:{}, breathing:'—', dailyQuest:'—', penaltyLog:[]},
+  inventory:{equipped:[], items:[], keys:[]}, standing:{current:'Independent', track:'Independent → Raid Participant → Ally → Co-Founder', history:[]}, rankTracker:{registeredRank:'E', effectiveTier:'—', reTestDates:[]}, gateLedger:[], fightLog:[], canonTimeline:{currentArc:1, currentArcName:'The Double Dungeon — Pre-Raid', canonEvents:[], divergences:[]}, armoryLog:{wishlist:[], acquired:[]}, youtubeLog:{channel:'Nano Blade', subs:0, videos:0, uploads:[]}, garageLog:{owned:[], dreamGarageWishlist:[]}, finance:{balanceKRW:30000000, incomeLog:[], expenseLog:[], giftLog:[]}, systemLog:["[System] Pre-Awakening — awaiting Double Dungeon trigger..."]
+};
+let DATA=null;
+function fmt(v){ return v==null||v==='' ? '<span class="blank">—</span>' : v.toLocaleString ? v.toLocaleString() : v; }
+function fmtNum(v){ return v==null ? '—' : v.toLocaleString(); }
+async function fetchData(show=false){
+  try{
+    const r=await fetch('./apollo_system.json?v='+Date.now(),{cache:'no-store'});
+    if(!r.ok) throw new Error(r.status);
+    DATA=await r.json();
+    render(); document.getElementById('liveText').textContent='LIVE — Fetched '+new Date().toLocaleTimeString();
+    if(show) flash('Fetched apollo_system.json');
+  }catch(e){
+    if(!DATA){ DATA=DEFAULT; render(); document.getElementById('liveText').textContent='OFFLINE — Blank template (host JSON side-by-side to go live)';}
+    else document.getElementById('liveText').textContent='LIVE — Auto-refresh 3s (last fetch failed)';
+  }
+}
+function flash(m){ const el=document.getElementById('liveText'); const p=el.textContent; el.textContent='✓ '+m; setTimeout(()=>el.textContent=p,1400); }
+function pct(a,b){ if(a==null||b==null||b==0) return 0; return Math.round(a/b*100); }
+function render(){
+  if(!DATA) return;
+  const p=DATA.player, s=DATA.stats, m=DATA.meta, ua=DATA.uniqueAbility, tg=DATA.twinGale;
+  document.getElementById('sysVersion').textContent=m.version||'v1.0';
+  document.getElementById('lastUpdated').textContent= m.lastUpdated ? new Date(m.lastUpdated).toLocaleString() : '—';
+  document.getElementById('updatedBy').textContent= m.updatedBy||'—';
+  document.getElementById('pName').innerHTML=`${p.name} <span>Lv.${p.level}</span>`;
+  document.getElementById('rankBadge').textContent=(p.rank||'—')+' RANK';
+  document.getElementById('pClass').textContent=p.class||'—';
+  document.getElementById('pClassRank').textContent=p.classRank||'—';
+  document.getElementById('pJob').textContent=p.job||'—';
+  document.getElementById('pTitle').textContent=p.title||'—';
+  document.getElementById('pAffil').textContent=p.affiliation||'—';
+  document.getElementById('pStatus').textContent=p.status||'—';
+  document.getElementById('pFatigue').textContent=`${p.fatigue||0}/${p.fatigueMax||100}`;
+  document.getElementById('pChannel').textContent=p.channel||'Nano Blade';
+  document.getElementById('pMeta').textContent=`${p.height} • ${p.weight} • ${p.handedness} • ${p.age}yo • ${p.birthday}`;
+  // bars
+  const bars=[ ['hp',p.hp,p.hpMax,'hpBar','hpTxt'], ['mp',p.mp,p.mpMax,'mpBar','mpTxt'], ['qi',s.qi,s.qiMax,'qiBar','qiTxt'], ['will',s.will,s.willMax,'willBar','willTxt'], ['xp',p.xp,p.xpMax,'xpBar','xpTxt'] ];
+  bars.forEach(([k,a,b,barId,txtId])=>{
+    const pc=pct(a,b); document.getElementById(txtId).innerHTML= a==null?'—':`${fmtNum(a)} / ${fmtNum(b)}`;
+    document.getElementById(barId).style.width=pc+'%'; document.getElementById(barId).textContent= a==null?'—':pc+'%';
+  });
+  const fpc=pct(p.fatigue,p.fatigueMax); document.getElementById('fatTxt').textContent=fpc+'%'; document.getElementById('fatBar').style.width=fpc+'%'; document.getElementById('fatBar').textContent=fpc+'%';
+  // kpi
+  document.getElementById('kpiRow').innerHTML=`<span>Gold <b>${fmtNum(p.gold||DATA.finance.balanceKRW)} KRW</b></span><span>Rank <b>${p.rank}</b> <span style="opacity:.6">(${p.rankMeasured||''})</span></span><span>Titles <b>${(p.titles||[]).length}</b></span><span>Lv <b>${p.level}</b></span>`;
+  // stats
+  [['sStr',s.strength],['sAgi',s.agility],['sVit',s.vitality],['sInt',s.intelligence],['sPer',s.perception]].forEach(([id,v])=>{ const el=document.getElementById(id); el.textContent=v==null?'—':v; el.className=v==null?'blank':''; });
+  document.getElementById('sPts').textContent=s.availablePoints==null?'—':s.availablePoints; document.getElementById('sPts').className=s.availablePoints==null?'blank':'gold';
+  [['sQi',s.qi],['sWill',s.will],['sCycles',s.cycles]].forEach(([id,v])=>{ const el=document.getElementById(id); el.textContent=v==null?'—':v; el.className=v==null?'blank':(id==='sQi'?'qi':id==='sWill'?'will':''); });
+  document.getElementById('sEnl').textContent=s.enlightenment??0;
+  document.getElementById('galeKpi').innerHTML=`<span>Agility Grade <b>${s.agilityGrade||'—'}</b></span><span>Wind Tax <b>${s.windTax||0}%</b></span><span>Corruption <b>${s.corruption||0}%</b></span><span>ENL <b>${s.enlightenment||0}</b></span><span>Titan 5×STR <b>${fmt(s.titanStrengthOutput)}</b></span>`;
+  drawRadar(s);
+  // LEDGER tab — this IS the Stats & Career Ledger
+  const ledger = `
+    <div class="notice"><b>This IS the Stats & Career Ledger</b> — live from <code>apollo_system.json</code>. LLM edits JSON → this ledger updates. This section replaces the static bullet list in the Career Mode file.</div>
+    <h4 style="color:var(--cyan);margin:10px 0 6px">SYSTEM TRACKER</h4>
+    <table><tr><th>Field</th><th>Apollo</th></tr>
+      <tr><td>Level / XP</td><td>${p.level} — ${fmtNum(p.xp)} / ${fmtNum(p.xpMax)} (${pct(p.xp,p.xpMax)}%) ${p.xp==p.xpMax?'<span class="pill S">LEVEL UP READY</span>':''}</td></tr>
+      <tr><td>STR / AGI / VIT / INT / PER</td><td>${fmt(s.strength)} / ${fmt(s.agility)} / ${fmt(s.vitality)} / ${fmt(s.intelligence)} / ${fmt(s.perception)} ${s.availablePoints!=null?`• PTS <b style="color:var(--gold)">${s.availablePoints}</b>`:''}</td></tr>
+      <tr><td>Titan Strength (5× STR)</td><td>${s.titanStrengthOutput==null?'<span class="blank">— (5× STR after awakening)</span>':fmt(s.titanStrengthOutput)}</td></tr>
+      <tr><td>QI / WILL / Cycles</td><td>QI ${fmt(s.qi)}/${fmt(s.qiMax)} • WILL ${fmt(s.will)}/${fmt(s.willMax)} • Cycles ${fmt(s.cycles)} • ENL ${s.enlightenment}</td></tr>
+      <tr><td>Agility Grade / Wind Tax / Corruption</td><td>${s.agilityGrade||'—'} • Wind Tax ${s.windTax||0}% • Corruption ${s.corruption||0}%</td></tr>
+      <tr><td>Daily Quest / Penalty</td><td>${tg.dailyQuest||'—'} ${tg.penaltyLog?.length?`• Penalties: ${tg.penaltyLog.length}`:''}</td></tr>
+    </table>
+    <h4 style="color:var(--violet);margin:10px 0 6px">STANDING / RANK</h4>
+    <table><tr><td>Standing</td><td><b>${DATA.standing.current}</b> — <span class="muted">${DATA.standing.track||''}</span></td></tr>
+      <tr><td>Registered Rank</td><td>${DATA.rankTracker.registeredRank||p.rank} — Effective Tier: <b>${DATA.rankTracker.effectiveTier||'—'}</b></td></tr>
+      <tr><td>Re-tests</td><td>${(DATA.rankTracker.reTestDates||[]).length?DATA.rankTracker.reTestDates.join(', '):'<span class="blank">None yet</span>'}</td></tr>
+    </table>
+    <h4 style="color:var(--gold);margin:10px 0 6px">FINANCE</h4>
+    <table><tr><td>Balance</td><td><b>${fmtNum(DATA.finance.balanceKRW)} KRW</b></td></tr>
+      <tr><td>Income / Expense / Gifts (entries)</td><td>${DATA.finance.incomeLog.length} / ${DATA.finance.expenseLog.length} / ${DATA.finance.giftLog.length}</td></tr>
+      <tr><td>Funds</td><td>Armory ${fmtNum(DATA.finance.armoryFund)} • Vehicle ${fmtNum(DATA.finance.vehicleFund)} • Residence ${fmtNum(DATA.finance.residenceFund)}</td></tr>
+    </table>
+    <h4 style="color:var(--jade);margin:10px 0 6px">CANON TIMELINE</h4>
+    <table><tr><td>Current Arc</td><td>${DATA.canonTimeline.currentArc} — ${DATA.canonTimeline.currentArcName||'—'}</td></tr>
+      <tr><td>Canon Events (logged)</td><td>${(DATA.canonTimeline.canonEvents||[]).length?DATA.canonTimeline.canonEvents.length+' events':'<span class="blank">None yet — pre-raid</span>'}</td></tr>
+      <tr><td>Divergences</td><td>${(DATA.canonTimeline.divergences||[]).length?DATA.canonTimeline.divergences.length+' divergences':'<span class="blank">None yet</span>'}</td></tr>
+    </table>
+    <div class="notice">LLM: Edit <code>apollo_system.json</code> paths above. Also update <code>meta.lastUpdated</code> + push <code>systemLog</code> each edit. This ledger IS the Career Mode's Stats & Career Ledger.</div>
+  `;
+  document.getElementById('ledgerBox').innerHTML=ledger;
+
+  // twin
+  const tf=tg.formations||{};
+  document.getElementById('twinBox').innerHTML=`
+    <div class="kpi"><span>Current Arc <b>${tg.currentArc||'—'}</b></span><span>Breathing <b>${tg.breathing||'—'}</b></span><span>Daily <b>${tg.dailyQuest||'—'}</b></span></div>
+    <table><tr><th>Formation</th><th>Mastery</th><th>Unlocked</th><th>Breathing</th></tr>
+      ${Object.entries(tf).map(([k,v])=>`<tr><td><b>${v.name||k}</b></td><td>${v.mastery??0}%</td><td>${v.unlocked?'✓':'—'}</td><td>${v.breathing||'—'}</td></tr>`).join('')||'<tr><td colspan=4 class="blank">Pre-awakening — no Twin Gale yet</td></tr>'}
+    </table>
+    ${tg.penaltyLog?.length?`<h4 style="color:var(--red);margin-top:10px">Penalty Log</h4><div class="log">${tg.penaltyLog.map(p=>`<div>${p}</div>`).join('')}</div>`:''}
+  `;
+  // body
+  document.getElementById('bodyBox').innerHTML=`
+    <table><tr><th>Pillar</th><th>Rank</th><th>Note</th></tr>
+      ${Object.entries(ua.pillars||{}).map(([k,v])=>`<tr><td>${k.toUpperCase()}</td><td><span class="pill Divine">${v.rank||'S'}</span> ${v.name||''}</td><td>${v.note||''}</td></tr>`).join('')}
+    </table>
+    <div class="kpi"><span>Mastery <b>${ua.mastery}%</b></span><span>Heaven's Eye <b>${ua.heavensEyeCountdown||'—'}</b></span><span>Unleashed this arc <b>${ua.unleashedUsesThisArc||0}/1</b></span></div>
+    <div class="notice">Mastery 5% at Lv1 → waste 70% Qi, Twin1 holes 5cm apart, copies flaws. See Perfect Body bible #mastery for 5%→100% table.</div>
+  `;
+  // inventory
+  const inv=DATA.inventory;
+  document.getElementById('invBox').innerHTML=`
+    <div class="kpi"><span>Equipped <b>${inv.equipped?.length||0}</b></span><span>Items <b>${inv.items?.length||0}</b></span><span>Keys <b>${inv.keys?.length||0}</b></span></div>
+    <h4 style="color:var(--gold)">EQUIPPED</h4><table><tr><th>Slot</th><th>Name</th><th>Rank</th><th>Effect</th></tr>${(inv.equipped||[]).map(i=>`<tr><td>${i.slot}</td><td><b>${i.name}</b></td><td><span class="pill ${i.rank}">${i.rank}</span></td><td>${i.effect||i.desc||''}</td></tr>`).join('')||'<tr><td colspan=4 class="blank">Decent matched pair (pre-awakening, set in opening scene) — fill after awakening</td></tr>'}</table>
+    <h4 style="color:var(--jade);margin-top:10px">ITEMS</h4><table><tr><th>Name</th><th>Rank</th><th>Qty</th><th>Desc</th></tr>${(inv.items||[]).map(i=>`<tr><td><b>${i.name}</b></td><td><span class="pill ${i.rank}">${i.rank}</span></td><td>×${i.qty||1}</td><td>${i.desc||''}</td></tr>`).join('')||'<tr><td colspan=4 class="blank">Empty — loot after gates</td></tr>'}</table>
+    <h4 style="color:var(--violet);margin-top:10px">ARMORY / KEYS</h4><table><tr><th>Armory Wishlist</th><th>Acquired</th></tr><tr><td>${(DATA.armoryLog.wishlist||[]).join(', ')||'—'}</td><td>${(DATA.armoryLog.acquired||[]).length?DATA.armoryLog.acquired.map(a=>a.name||a).join(', '):'<span class="blank">None yet</span>'}</td></tr></table>
+  `;
+  // gates
+  document.getElementById('gatesBox').innerHTML=`
+    <h4>GATE LEDGER</h4><table><tr><th>Date</th><th>Gate</th><th>Rank/Type</th><th>Boss</th><th>Result</th><th>Loot</th></tr>${(DATA.gateLedger||[]).map(g=>`<tr><td>${g.date||''}</td><td>${g.location||''}</td><td>${g.rank||''} ${g.type||''}</td><td>${g.boss||''}</td><td>${g.result||''}</td><td>${g.loot||''}</td></tr>`).join('')||'<tr><td colspan=6 class="blank">No gates yet — pre-raid. LLM: push to gateLedger[] after each gate.</td></tr>'}</table>
+    <h4 style="margin-top:12px">FIGHT LOG</h4><table><tr><th>Date</th><th>Opponent</th><th>Formations</th><th>Result</th><th>Injuries</th></tr>${(DATA.fightLog||[]).map(f=>`<tr><td>${f.date||''}</td><td>${f.opponent||''}</td><td>${f.formations||''}</td><td>${f.result||''}</td><td>${f.injuries||''}</td></tr>`).join('')||'<tr><td colspan=5 class="blank">No fights logged yet</td></tr>'}</table>
+    <div class="notice">LLM: After every gate/raid, push to gateLedger[] and fightLog[] + update canonTimeline.canonEvents/divergences + rankTracker + finance + youtubeLog + garageLog as needed.</div>
+  `;
+  // career
+  document.getElementById('careerBox').innerHTML=`
+    <h4>STANDING</h4><table><tr><td>Track</td><td>${DATA.standing.track||''}</td></tr><tr><td>Current</td><td><b>${DATA.standing.current||'Independent'}</b> — ${DATA.standing.currentDetail||''}</td></tr></table>
+    <h4>YOUTUBE — Nano Blade</h4><table><tr><td>Subs</td><td>${DATA.youtubeLog.subs||0}</td><td>Videos</td><td>${DATA.youtubeLog.videos||0}</td></tr></table>
+    ${DATA.youtubeLog.uploads?.length?`<table><tr><th>Date</th><th>Title</th><th>Views</th><th>Feedback</th></tr>${DATA.youtubeLog.uploads.map(u=>`<tr><td>${u.date||''}</td><td>${u.title||''}</td><td>${u.views||''}</td><td>${u.feedback||''}</td></tr>`).join('')}</table>':'<p class="blank">No uploads yet — 0 subs</p>'}
+    <h4 style="margin-top:10px">GARAGE</h4><table><tr><td>Owned</td><td>${(DATA.garageLog.owned||[]).length?DATA.garageLog.owned.map(v=>v.name).join(', '):'<span class="blank">None — Dream Garage wishlist only</span>'}</td></tr><tr><td>Dream Wishlist</td><td>${(DATA.garageLog.dreamGarageWishlist||[]).join(', ')}</td></tr></table>
+  `;
+  // log
+  document.getElementById('logBox').innerHTML=(DATA.systemLog||[]).slice().reverse().map(l=>`<div>${l}</div>`).join('')||'<div class="blank">No logs</div>';
+}
+function drawRadar(s){
+  const c=document.getElementById('radar'), ctx=c.getContext('2d'), dpr=window.devicePixelRatio||1, W=c.clientWidth, H=170;
+  c.width=W*dpr; c.height=H*dpr; c.style.width=W+'px'; c.style.height=H+'px'; ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+  const vals=[s.strength,s.agility,s.vitality,s.intelligence,s.perception].map(v=>v==null?0:v);
+  const max=Math.max(50,...vals, 50)*1.2, cx=W/2, cy=H/2+6, r=58, labels=['STR','AGI','VIT','INT','PER'];
+  for(let k=1;k<=4;k++){ ctx.beginPath(); ctx.strokeStyle='rgba(30,58,106,.5)'; for(let i=0;i<5;i++){ const a=(Math.PI*2*i/5)-Math.PI/2, rx=cx+Math.cos(a)*r*k/4, ry=cy+Math.sin(a)*r*k/4; if(i===0) ctx.moveTo(rx,ry); else ctx.lineTo(rx,ry);} ctx.closePath(); ctx.stroke();}
+  for(let i=0;i<5;i++){ const a=(Math.PI*2*i/5)-Math.PI/2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*r, cy+Math.sin(a)*r); ctx.strokeStyle='rgba(0,215,255,.22)'; ctx.stroke();}
+  ctx.beginPath(); ctx.fillStyle='rgba(0,215,255,.22)'; ctx.strokeStyle='#00d7ff'; ctx.lineWidth=2;
+  for(let i=0;i<5;i++){ const a=(Math.PI*2*i/5)-Math.PI/2, v=vals[i]/max*r, x=cx+Math.cos(a)*v, y=cy+Math.sin(a)*v; if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);} ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#7a9bc7'; ctx.font='10px JetBrains Mono'; ctx.textAlign='center';
+  for(let i=0;i<5;i++){ const a=(Math.PI*2*i/5)-Math.PI/2, x=cx+Math.cos(a)*(r+14), y=cy+Math.sin(a)*(r+14)+4; ctx.fillText(labels[i]+' '+(vals[i]||'—'),x,y);}
+}
+function clearLog(){ document.getElementById('logBox').innerHTML='<div class="blank">Cleared view only — JSON log not cleared</div>'; }
+function downloadJson(){ const b=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='apollo_system.json'; a.click(); }
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.querySelectorAll('.tabContent').forEach(x=>x.classList.remove('active')); b.classList.add('active'); document.getElementById('tab-'+b.dataset.tab).classList.add('active');}));
+fetchData(false);
+setInterval(()=>fetchData(false),3000);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) fetchData(false); });
+</script>
+</body>
+</html>
